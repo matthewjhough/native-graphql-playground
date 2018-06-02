@@ -1,11 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Rates from "./components/Rates";
 
 export default class Root extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Yelp Playground App Updated</Text>
+        <Text>Graphql/Apollo Playground</Text>
+        <Rates />
       </View>
     );
   }

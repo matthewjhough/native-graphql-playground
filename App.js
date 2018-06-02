@@ -14,6 +14,7 @@ const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache()
 });
+
 export default class App extends React.Component {
   render() {
     return (
