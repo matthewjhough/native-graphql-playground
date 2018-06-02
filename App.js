@@ -1,23 +1,27 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { AppRegistry } from "react-native";
+import { ApolloClient, InMemoryCache, HttpLink } from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+import gql from "graphql-tag";
+import Root from "./src/Root";
 
+const httpLink = new HttpLink({
+  uri: "https://w5xlvm3vzz.lp.gql.zone/graphql"
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+});
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <ApolloProvider client={client}>
+        <Root />
+      </ApolloProvider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+AppRegistry.registerComponent("yelp-playground", () => App);
