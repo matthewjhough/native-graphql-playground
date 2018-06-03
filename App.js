@@ -25,4 +25,4 @@ export default class App extends React.Component {
   }
 }
 
-AppRegistry.registerComponent("yelp-playground", () => App);
+AppRegistry.registerComponent("native-playground", () => App);

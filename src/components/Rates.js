@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
-// import { View } from "react-native"; //
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { List, ListItem, Button } from "react-native-elements";
 
 const query = gql`
   query rates {
@@ -12,6 +12,7 @@ const query = gql`
     }
   }
 `;
+
 class Rates extends React.Component {
   constructor(props) {
     super(props);
@@ -23,18 +24,26 @@ class Rates extends React.Component {
   }
 
   getRates() {
-    this.setState({
-      loading: true
-    });
-    new Promise(resolve => {
-      var { rates } = this.props.data;
-      this.setState({
-        rates
-      });
-      resolve();
-    }).then(res => {
-      console.log("loading complete");
-    });
+    var { rates } = this.props.data;
+    this.setState(
+      {
+        loading: true
+      },
+      () => {
+        setTimeout(() => {
+          this.setState(
+            {
+              rates
+            },
+            () => {
+              this.setState({
+                loading: false
+              });
+            }
+          );
+        }, 500);
+      }
+    );
   }
 
   clearRates() {
@@ -44,29 +53,94 @@ class Rates extends React.Component {
   }
 
   render() {
-    console.log("Rendered!");
+    if (this.props.data.loading)
+      return (
+        <View>
+          <Text>Fetching...</Text>
+        </View>
+      );
+    else if (this.state.loading) {
+      return (
+        <View style={{ maxHeight: 500, alignSelf: "stretch" }}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingTop: 20,
+              alignSelf: "stretch"
+            }}
+          >
+            <Button
+              raised
+              style={{
+                alignSelf: "stretch",
+                width: 200
+              }}
+              loading
+              backgroundColor={"#4682b4"}
+              style={styles.button}
+              onClick={this.getRates}
+              onPress={this.getRates}
+              title="Loading..."
+            />
+            <Button
+              raised
+              style={{
+                alignSelf: "stretch",
+                width: 200
+              }}
+              backgroundColor={"#ff4c4c"}
+              style={styles.button}
+              onClick={this.clearRates}
+              onPress={this.clearRates}
+              title="Clear"
+            />
+          </View>
+        </View>
+      );
+    }
     return (
-      <View style={{ maxHeight: 450 }}>
-        <ScrollView style={styles.scrollView}>
-          {this.state.rates &&
-            this.state.rates.map((item, i) => {
-              return (
-                <View key={i}>
-                  <Text key={i}>{item.currency + " " + item.name}</Text>
-                </View>
-              );
-            })}
+      <View style={{ maxHeight: 500, alignSelf: "stretch" }}>
+        <ScrollView>
+          <List style={styles.scrollView}>
+            {this.state.rates &&
+              this.state.rates.map((item, i) => {
+                return (
+                  <ListItem
+                    key={i}
+                    title={item.name + " -- " + item.currency}
+                  />
+                );
+              })}
+          </List>
         </ScrollView>
-        <View style={{ display: "flex", flexDirection: "row", width: 350 }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingTop: 20,
+            alignSelf: "stretch"
+          }}
+        >
           <Button
+            raised
+            style={{
+              alignSelf: "stretch",
+              width: 200
+            }}
+            backgroundColor={"#4682b4"}
             style={styles.button}
             onClick={this.getRates}
             onPress={this.getRates}
-            title="Rates"
+            title="Show Currency"
           />
           <Button
-            color={"red"}
-            width={150}
+            raised
+            style={{
+              alignSelf: "stretch",
+              width: 200
+            }}
+            backgroundColor={"#ff4c4c"}
             style={styles.button}
             onClick={this.clearRates}
             onPress={this.clearRates}
@@ -83,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    width: 350
+    maxHeight: 300
   }
 });
 
