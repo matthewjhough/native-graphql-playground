@@ -1,32 +1,67 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Rates from "./components/Rates";
-import { Header } from "react-native-elements";
-// import { nativeHistory, Route, Router } from "react-router-native";
+import { Header, Button } from "react-native-elements";
 import { createStackNavigator } from "react-navigation";
 
-export default class Root extends React.Component {
+class Root extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          leftComponent={{ icon: "menu", color: "#fff" }}
-          centerComponent={{ text: "RSI Trackr", style: { color: "#fff" } }}
-          rightComponent={{ icon: "home", color: "#fff" }}
-          outerContainerStyles={{
-            backgroundColor: "#173d6a",
-            width: "100%",
-            marginTop: 10,
-            position: "absolute",
-            top: 10
+        <Button
+          raised
+          style={{
+            alignSelf: "stretch",
+            width: 200
           }}
-          innerContainerStyles={{ paddingTop: 0 }}
+          backgroundColor={"#4682b4"}
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Rates")}
+          title="See Currency Rates"
         />
-        <Rates />
       </View>
     );
   }
 }
+
+export default createStackNavigator(
+  {
+    Home: {
+      screen: Root,
+      navigationOptions: {
+        title: "RSI Trackr",
+        headerTitleStyle: {
+          color: "#fff",
+          alignSelf: "center",
+          textAlign: "center",
+          width: "90%"
+        },
+        headerStyle: {
+          display: "flex",
+          backgroundColor: "#173d6a"
+        }
+      }
+    },
+    Rates: {
+      screen: Rates,
+      navigationOptions: {
+        title: "Currency",
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          color: "#fff",
+          textAlign: "center",
+          width: "72%"
+        },
+        headerStyle: {
+          backgroundColor: "#173d6a"
+        }
+      }
+    }
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -34,6 +69,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4f4f4",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%"
+    width: "100%",
+    alignSelf: "center"
   }
 });
+
+/* 
+  <Header
+    leftComponent={{ icon: "menu", color: "#fff" }}
+    centerComponent={{ text: "RSI Trackr", style: { color: "#fff" } }}
+    rightComponent={{ icon: "home", color: "#fff" }}
+    outerContainerStyles={{
+      backgroundColor: "#173d6a",
+      width: "100%",
+      marginTop: 10,
+      position: "absolute",
+      top: 10
+    }}
+    innerContainerStyles={{ paddingTop: 0 }}
+  />
+*/
