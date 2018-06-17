@@ -29,7 +29,6 @@ const DrawerNavigation = createStackNavigator(
           <Text
             style={{ color: "white" }}
             onPress={() => {
-              console.log(navigation);
               navigation.toggleDrawer();
             }}
           >
