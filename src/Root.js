@@ -2,66 +2,17 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Rates from "./components/Rates";
 import { Header, Button } from "react-native-elements";
-import { createStackNavigator } from "react-navigation";
+import AppNavigation from "./AppNavigation";
 
-class Root extends React.Component {
+export default class Root extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          raised
-          style={{
-            alignSelf: "stretch",
-            width: 200
-          }}
-          backgroundColor={"#4682b4"}
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("Rates")}
-          title="See Currency Rates"
-        />
+        <Text>Welcome to RSI Trackr, Lorem Ipsum.</Text>
       </View>
     );
   }
 }
-
-export default createStackNavigator(
-  {
-    Home: {
-      screen: Root,
-      navigationOptions: {
-        title: "RSI Trackr",
-        headerTitleStyle: {
-          color: "#fff",
-          alignSelf: "center",
-          textAlign: "center",
-          width: "90%"
-        },
-        headerStyle: {
-          display: "flex",
-          backgroundColor: "#173d6a"
-        }
-      }
-    },
-    Rates: {
-      screen: Rates,
-      navigationOptions: {
-        title: "Currency",
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          color: "#fff",
-          textAlign: "center",
-          width: "72%"
-        },
-        headerStyle: {
-          backgroundColor: "#173d6a"
-        }
-      }
-    }
-  },
-  {
-    initialRouteName: "Home"
-  }
-);
 
 const styles = StyleSheet.create({
   container: {
