@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Rates from "./components/Rates";
 import { Header, Button } from "react-native-elements";
 import AppNavigation from "./AppNavigation";
 
